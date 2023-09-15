@@ -1,0 +1,53 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanks {{appName}}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Nunito+Sans:opsz@6..12&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .main-content {
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 18px;
+            width: 100%;
+            height: 100%;
+            background: #71c9d2;
+        }
+
+        .card {
+            border-radius: 8px;
+            padding: 16px 32px;
+            width: 350px;
+            height: fit-content;
+            text-align: center;
+            background: white;
+            box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.24);
+        }
+    </style>
+</head>
+<body>
+<section class="main-content">
+    <div class="card">
+        <p style="font-size: 1.4rem">Thanks for using the {{appName}}</p>
+        <br>
+        <p>You can close this page</p>
+    </div>
+</section>
+</body>
+</html>

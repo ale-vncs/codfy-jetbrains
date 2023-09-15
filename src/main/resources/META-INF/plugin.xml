@@ -1,0 +1,112 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.ale.vncs.codfy</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Codfy</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="alessandro.vncs@gmail.com" url="https://github.com/ale-vncs/codfy-jetbrains">Alessandro Santos</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description>
+        <![CDATA[
+            Control your spotify without leaving your ide
+        ]]>
+    </description>
+    <change-notes>
+        <![CDATA[
+          <ul>
+            <li><b>0.1.0</b> Beta version</li>
+          </ul>
+        ]]>
+    </change-notes>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <statusBarWidgetFactory
+                id="Codfy"
+                implementation="com.ale.vncs.codfy.services.StatusBar"
+        />
+
+        <toolWindow
+                id="Codfy"
+                anchor="right"
+                secondary="false"
+                icon="/icons/spotify-icon-toolwindow.svg"
+                factoryClass="com.ale.vncs.codfy.services.ToolWindow"
+        />
+
+        <notificationGroup
+                id="Codfy"
+                displayType="BALLOON"
+        />
+    </extensions>
+
+    <actions>
+        <group id="CodfyPluginGroup"
+               icon="/icons/spotify-icon-small.svg"
+               compact="true"
+               text="Codfy"
+               popup="true"
+               class="com.ale.vncs.codfy.actions.groups.EditorMenuGroup"
+        >
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <action id="CodfyPlugin.playPause"
+                    class="com.ale.vncs.codfy.actions.SpotifyPlayPauseAction"
+                    text="Play/Pause"
+                    description="Play/pause music"
+                    icon="/icons/play-circle.svg">
+                <keyboard-shortcut
+                        keymap="$default"
+                        first-keystroke="control alt 9"/>
+            </action>
+            <action id="CodfyPlugin.nextSong"
+                    class="com.ale.vncs.codfy.actions.SpotifyNextSongAction"
+                    text="Next Song"
+                    description="Play next song"
+                    icon="/icons/step-forward.svg">
+                <keyboard-shortcut
+                        keymap="$default"
+                        first-keystroke="control alt 0"/>
+            </action>
+            <action id="CodfyPlugin.prevSong"
+                    class="com.ale.vncs.codfy.actions.SpotifyPrevSongAction"
+                    text="Prev Song"
+                    description="Play prev song"
+                    icon="/icons/step-backward.svg">
+                <keyboard-shortcut
+                        keymap="$default"
+                        first-keystroke="control alt 8"
+                />
+            </action>
+            <action id="CodfyPlugin.shuffleSong"
+                    class="com.ale.vncs.codfy.actions.SpotifyShuffleSongAction"
+                    text="Shuffle Song"
+                    description="Toggle shuffle mode"
+                    icon="/icons/shuffle-variant.svg">
+            </action>
+            <action id="CodfyPlugin.repeatSong"
+                    class="com.ale.vncs.codfy.actions.SpotifyRepeatModeAction"
+                    text="Repeat Song"
+                    description="Change in repeat song, playlist or none"
+                    icon="/icons/repeat-variant.svg">
+            </action>
+        </group>
+    </actions>
+    <applicationListeners>
+        <listener
+                class="com.ale.vncs.codfy.listener.DynamicPlugin"
+                topic="com.intellij.ide.plugins.DynamicPluginListener"
+        />
+    </applicationListeners>
+</idea-plugin>
