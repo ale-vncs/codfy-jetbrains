@@ -1,6 +1,7 @@
 package com.ale.vncs.codfy.ui.playlist
 
 import AlphaContainer
+import com.ale.vncs.codfy.component.CustomLabel
 import com.ale.vncs.codfy.component.DefaultPanel
 import com.ale.vncs.codfy.dto.PlaylistDTO
 import com.ale.vncs.codfy.dto.PlaylistTrackData
@@ -53,7 +54,7 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
         constraint.insets = JBInsets.create(0, 8)
         constraint.anchor = GridBagConstraints.LINE_START
 
-        val iconLabel = JLabel()
+        val iconLabel = CustomLabel()
         iconLabel.preferredSize = Dimension(30, 30)
         if (trackData?.songId == playlistTrackData.track.songId) {
             iconLabel.icon = FontIcon.of(MaterialDesignP.PLAY_CIRCLE, 30, Constants.SPOTIFY_COLOR)
@@ -61,7 +62,7 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
         card.add(iconLabel)
         constraint.gridx = constraint.gridx++
 
-        card.add(JLabel(ImageIcon(image)), constraint)
+        card.add(CustomLabel(ImageIcon(image)), constraint)
 
         constraint.gridx = constraint.gridx++
         constraint.fill = GridBagConstraints.HORIZONTAL
@@ -105,7 +106,7 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
     }
 
     private fun getLabel(text: String, size: Float = 12f): JLabel {
-        val label = JLabel(text)
+        val label = CustomLabel(text)
 
         label.horizontalAlignment = SwingConstants.LEFT
         label.font = JBFont.regular().deriveFont(size)
@@ -115,7 +116,7 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
 
     private fun loadingPanel() {
         val panel = DefaultPanel(GridBagLayout())
-        panel.add(JLabel("Loading..."), GridBagConstraints())
+        panel.add(CustomLabel("Loading..."), GridBagConstraints())
         this.panel.add(panel)
     }
 

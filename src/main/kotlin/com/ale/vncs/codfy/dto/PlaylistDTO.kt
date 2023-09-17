@@ -30,7 +30,7 @@ class PlaylistDTO {
             val playlistDTO = PlaylistDTO()
             playlistDTO.total = playlist.total
             playlistDTO.hasNext = playlist.next != null
-            playlistDTO.name = "Music liked"
+            playlistDTO.name = "Liked songs"
             playlistDTO.uri = "spotify:user:${userId}:collection"
             playlistDTO.tracks = playlist.items
                 .map(fun(it): PlaylistTrackData { return PlaylistTrackData(it) })

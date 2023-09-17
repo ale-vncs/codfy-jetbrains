@@ -1,4 +1,4 @@
-package com.ale.vncs.codfy.input.icon.button
+package com.ale.vncs.codfy.component.input.icon.button
 
 import com.ale.vncs.codfy.utils.Constants
 import org.kordamp.ikonli.Ikon

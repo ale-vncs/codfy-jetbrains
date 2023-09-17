@@ -4,7 +4,7 @@ import com.ale.vncs.codfy.component.GridBagPanel
 import com.ale.vncs.codfy.dto.DeviceDTO
 import com.ale.vncs.codfy.utils.Constants
 import com.ale.vncs.codfy.enum.SpotifyRepeatMode
-import com.ale.vncs.codfy.input.icon.button.IconButton
+import com.ale.vncs.codfy.component.input.icon.button.IconButton
 import com.ale.vncs.codfy.notifier.NotifierService
 import com.ale.vncs.codfy.notifier.SpotifyPlayerTrackObserver
 import com.ale.vncs.codfy.dto.PlayerDTO

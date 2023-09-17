@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.ale.vncs"
-version = "0.1.0"
+version = "0.1.1"
 
 repositories {
   mavenCentral()
@@ -21,6 +21,7 @@ dependencies {
   implementation("se.michaelthelin.spotify:spotify-web-api-java:8.0.0") {
     exclude(group = "org.slf4j", module = "slf4j-api")
   }
+
   compileOnly("org.slf4j:slf4j-api:1.7.36")
 }
 
@@ -62,9 +63,9 @@ tasks {
   }
 
   signPlugin {
-    certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-    privateKey.set(System.getenv("PRIVATE_KEY"))
-    password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+    certificateChainFile.set(file("certificate/chain.crt"))
+    privateKeyFile.set(file("certificate/private.pem"))
+    password.set(System.getenv("CERT_PRIVATE_KEY"))
   }
 
   publishPlugin {

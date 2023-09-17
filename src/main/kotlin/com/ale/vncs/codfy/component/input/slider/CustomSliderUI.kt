@@ -1,4 +1,4 @@
-package com.ale.vncs.codfy.input.slider
+package com.ale.vncs.codfy.component.input.slider
 
 import com.intellij.ui.Gray
 import com.intellij.ui.JBColor

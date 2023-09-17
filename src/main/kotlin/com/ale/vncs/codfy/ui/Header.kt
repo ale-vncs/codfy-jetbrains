@@ -1,5 +1,6 @@
 package com.ale.vncs.codfy.ui
 
+import com.ale.vncs.codfy.component.CustomLabel
 import com.ale.vncs.codfy.enum.SpotifyStatus
 import com.ale.vncs.codfy.notifier.NotifierService
 import com.ale.vncs.codfy.notifier.SpotifyStatusObserver
@@ -45,7 +46,7 @@ class Header : GridBagPanel(), SpotifyStatusObserver {
 
         var image = ImageLoader.loadFromResource("/icons/spotify-logo.svg", javaClass)
         image = Scalr.resize(toBufferedImage(image!!), 100)
-        val label = JLabel(ImageIcon(image))
+        val label = CustomLabel(ImageIcon(image))
         label.horizontalAlignment = SwingConstants.LEFT
 
         add(label, constraints)

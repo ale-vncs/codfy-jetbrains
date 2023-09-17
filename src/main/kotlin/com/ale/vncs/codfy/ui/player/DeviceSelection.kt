@@ -1,8 +1,9 @@
 package com.ale.vncs.codfy.ui.player
 
+import com.ale.vncs.codfy.component.CustomLabel
 import com.ale.vncs.codfy.component.GridBagPanel
+import com.ale.vncs.codfy.component.input.icon.button.IconButton
 import com.ale.vncs.codfy.dto.DeviceDTO
-import com.ale.vncs.codfy.input.icon.button.IconButton
 import com.ale.vncs.codfy.notifier.NotifierService
 import com.ale.vncs.codfy.notifier.SpotifyDeviceChangeObserver
 import com.ale.vncs.codfy.services.SpotifyDeviceService
@@ -18,7 +19,10 @@ import org.kordamp.ikonli.swing.FontIcon
 import java.awt.Component
 import java.awt.GridBagConstraints
 import java.awt.event.ItemEvent
-import javax.swing.*
+import javax.swing.DefaultComboBoxModel
+import javax.swing.Icon
+import javax.swing.JList
+import javax.swing.ListCellRenderer
 
 
 class DeviceSelection : GridBagPanel(), SpotifyDeviceChangeObserver {
@@ -50,7 +54,7 @@ class DeviceSelection : GridBagPanel(), SpotifyDeviceChangeObserver {
         comboBoxConstraint.fill = GridBagConstraints.HORIZONTAL
 
         comboBox.isUsePreferredSizeAsMinimum = false
-        comboBox.isOpaque = true
+        comboBox.isOpaque = false
         comboBox.isFocusable = false
         comboBox.addItemListener(fun(event) {
             if (event.stateChange == ItemEvent.SELECTED) {
@@ -78,7 +82,7 @@ class DeviceSelection : GridBagPanel(), SpotifyDeviceChangeObserver {
         add(button, buttonConstraint)
     }
 
-    internal class CarListCellRenderer : JLabel(), ListCellRenderer<DeviceDTO> {
+    internal class CarListCellRenderer : CustomLabel(), ListCellRenderer<DeviceDTO> {
         private fun getIcon(icon: Ikon): Icon {
             return FontIcon.of(icon, 18, Constants.ICON_COLOR)
         }
@@ -90,7 +94,7 @@ class DeviceSelection : GridBagPanel(), SpotifyDeviceChangeObserver {
             isSelected: Boolean,
             cellHasFocus: Boolean
         ): Component {
-            val label = JLabel(value?.name ?: "No device selected")
+            val label = CustomLabel(value?.name ?: "No device selected")
 
             when(value?.type?.lowercase()) {
                 "computer" -> label.icon = getIcon(MaterialDesignM.MONITOR)

@@ -1,5 +1,6 @@
 package com.ale.vncs.codfy.ui.auth
 
+import com.ale.vncs.codfy.component.CustomLabel
 import com.ale.vncs.codfy.utils.Constants
 import com.ale.vncs.codfy.services.SpotifyService
 import com.ale.vncs.codfy.component.DefaultPanel
@@ -22,7 +23,7 @@ class AuthPanel : DefaultPanel(GridBagLayout()) {
 
     private fun textInfo() {
         val info = "You need logIn in Spotify to connect in $appName"
-        val text = JLabel(info)
+        val text = CustomLabel(info)
         add(text, GridBagConstraints())
     }
 

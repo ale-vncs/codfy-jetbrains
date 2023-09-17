@@ -8,6 +8,7 @@ import com.ale.vncs.codfy.utils.Constants
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
+import se.michaelthelin.spotify.exceptions.detailed.BadGatewayException
 import se.michaelthelin.spotify.exceptions.detailed.ForbiddenException
 import java.net.UnknownHostException
 import java.util.*
@@ -49,6 +50,10 @@ class SpotifyPlayTrackUpdate {
                 }
             } catch (ex: Exception) {
                 thisLogger().error(ex)
+
+                if (ex is BadGatewayException) {
+                    return
+                }
 
                 if (ex is UnknownHostException) {
                     spotifyService.changeStatus(SpotifyStatus.LOST_CONNECTION)

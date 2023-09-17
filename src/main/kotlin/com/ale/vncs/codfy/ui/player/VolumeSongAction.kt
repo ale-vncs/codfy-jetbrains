@@ -1,8 +1,8 @@
 package com.ale.vncs.codfy.ui.player
 
 import com.ale.vncs.codfy.dto.DeviceDTO
-import com.ale.vncs.codfy.input.icon.button.IconButton
-import com.ale.vncs.codfy.input.slider.CustomSlider
+import com.ale.vncs.codfy.component.input.icon.button.IconButton
+import com.ale.vncs.codfy.component.input.slider.CustomSlider
 import com.ale.vncs.codfy.notifier.NotifierService
 import com.ale.vncs.codfy.notifier.SpotifyDeviceChangeObserver
 import com.ale.vncs.codfy.services.SpotifyService

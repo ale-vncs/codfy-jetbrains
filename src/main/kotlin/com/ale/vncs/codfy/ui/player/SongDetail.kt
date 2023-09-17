@@ -1,20 +1,20 @@
 package com.ale.vncs.codfy.ui.player
 
+import com.ale.vncs.codfy.component.CustomLabel
 import com.ale.vncs.codfy.component.GridBagPanel
+import com.ale.vncs.codfy.dto.PlayerDTO
 import com.ale.vncs.codfy.notifier.NotifierService
 import com.ale.vncs.codfy.notifier.SpotifyPlayerTrackObserver
-import com.ale.vncs.codfy.dto.PlayerDTO
 import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
-import java.awt.*
-import javax.swing.JLabel
+import java.awt.GridBagConstraints
 
 
 class SongDetail : GridBagPanel(), SpotifyPlayerTrackObserver {
     private var playerData: PlayerDTO?
-    private var songName = JLabel()
-    private var songImage = JLabel()
-    private var artistName = JLabel()
+    private var songName = CustomLabel()
+    private var songImage = CustomLabel()
+    private var artistName = CustomLabel()
     private val notifierService = NotifierService.instance()
 
     init {

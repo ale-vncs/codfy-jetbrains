@@ -27,8 +27,6 @@ class PlaylistArea : JBScrollPane() {
         panel.layout = BoxLayout(panel, BoxLayout.X_AXIS)
         setViewportView(panel)
         setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS)
-        //homeButton()
-        //addGap()
         songLikedButton()
         spotifyApi.listOfCurrentUsersPlaylists.build().executeAsync().thenApply(fun(playlist) {
             playlist.items.forEach(fun(it) {
@@ -63,7 +61,7 @@ class PlaylistArea : JBScrollPane() {
 
     private fun songLikedButton() {
         val icon = FontIcon.of(MaterialDesignH.HEART_CIRCLE, 40, JBColor.PINK)
-        val button = getButton(icon, "Liked")
+        val button = getButton(icon, "Liked songs")
 
         button.addActionListener(fun(_) {
             getTrackLiked()

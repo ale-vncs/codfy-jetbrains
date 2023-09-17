@@ -1,9 +1,10 @@
 package com.ale.vncs.codfy.ui.player
 
+import com.ale.vncs.codfy.component.CustomLabel
 import com.ale.vncs.codfy.component.GridBagPanel
 import com.ale.vncs.codfy.dto.DeviceDTO
 import com.ale.vncs.codfy.utils.Constants
-import com.ale.vncs.codfy.input.slider.CustomSlider
+import com.ale.vncs.codfy.component.input.slider.CustomSlider
 import com.ale.vncs.codfy.notifier.NotifierService
 import com.ale.vncs.codfy.notifier.SpotifyPlayerTrackObserver
 import com.ale.vncs.codfy.dto.PlayerDTO
@@ -68,7 +69,7 @@ class SongPeriodBar : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyDeviceC
     }
 
     private fun getLabelTime(): JLabel {
-        val label = JLabel()
+        val label = CustomLabel()
 
         label.verticalAlignment = Label.CENTER
         label.foreground = Constants.TIME_FONT_COLOR

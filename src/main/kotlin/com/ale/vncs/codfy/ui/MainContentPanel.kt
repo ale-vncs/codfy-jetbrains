@@ -1,5 +1,6 @@
 package com.ale.vncs.codfy.ui
 
+import com.ale.vncs.codfy.component.CustomLabel
 import com.ale.vncs.codfy.component.DefaultPanel
 import com.ale.vncs.codfy.enum.SpotifyStatus
 import com.ale.vncs.codfy.notifier.NotifierService
@@ -10,7 +11,6 @@ import com.ale.vncs.codfy.ui.playlist.Playlist
 import com.intellij.openapi.wm.ToolWindow
 import java.awt.BorderLayout
 import javax.swing.BorderFactory
-import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.SwingConstants
 
@@ -46,7 +46,7 @@ class MainContentPanel(val toolWindow: ToolWindow) : DefaultPanel(BorderLayout(0
     private fun initializingPanel(): JPanel {
         val panel = JPanel()
 
-        panel.add(JLabel("Initializing...", SwingConstants.CENTER))
+        panel.add(CustomLabel("Initializing...", SwingConstants.CENTER))
 
         return panel
     }
