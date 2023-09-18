@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.ale.vncs"
-version = "0.1.1"
+version = "0.1.2"
 
 repositories {
   mavenCentral()
@@ -28,7 +28,7 @@ dependencies {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-  version.set("2022.2.5")
+  version.set("2022.2.5") //2022.2.5 - 223.8836.41
   type.set("IC") // Target IDE Platform
 
   plugins.set(listOf(/* Plugin Dependencies */))
@@ -69,6 +69,7 @@ tasks {
   }
 
   publishPlugin {
+    channels.set(listOf(System.getenv("PUBLISH_CHANNEL") ?: "stable"))
     token.set(System.getenv("PUBLISH_TOKEN"))
   }
 }

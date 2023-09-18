@@ -1,6 +1,7 @@
 package com.ale.vncs.codfy.actions
 
 import com.ale.vncs.codfy.services.SpotifySendAction
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.ui.JBColor
@@ -15,5 +16,9 @@ class SpotifyNextSongAction : AnAction() {
 
     override fun update(e: AnActionEvent) {
         e.presentation.icon = FontIcon.of(MaterialDesignS.STEP_FORWARD, 18, JBColor.BLACK)
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
     }
 }

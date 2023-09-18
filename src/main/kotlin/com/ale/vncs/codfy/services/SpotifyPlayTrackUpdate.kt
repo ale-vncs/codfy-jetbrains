@@ -49,11 +49,11 @@ class SpotifyPlayTrackUpdate {
                     }
                 }
             } catch (ex: Exception) {
-                thisLogger().error(ex)
-
                 if (ex is BadGatewayException) {
                     return
                 }
+
+                thisLogger().error(ex)
 
                 if (ex is UnknownHostException) {
                     spotifyService.changeStatus(SpotifyStatus.LOST_CONNECTION)

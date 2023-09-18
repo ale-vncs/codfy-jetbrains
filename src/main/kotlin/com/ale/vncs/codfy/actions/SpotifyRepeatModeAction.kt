@@ -37,6 +37,6 @@ class SpotifyRepeatModeAction : AnAction() {
     }
 
     override fun getActionUpdateThread(): ActionUpdateThread {
-        return super.getActionUpdateThread()
+        return ActionUpdateThread.BGT
     }
 }

@@ -14,7 +14,6 @@ class AuthPanel : DefaultPanel(GridBagLayout()) {
     private val appName = Constants.APP_NAME
     private val spotifyService = SpotifyService.instance()
 
-    private val loginSpotifyButton = ActionLink("LogIn Spotify")
 
     init {
         textInfo()
@@ -28,9 +27,11 @@ class AuthPanel : DefaultPanel(GridBagLayout()) {
     }
 
     private fun loginButton() {
+        val loginSpotifyButton = ActionLink("LogIn Spotify")
         loginSpotifyButton.requestFocus()
         loginSpotifyButton.addActionListener(fun(_) {
             spotifyService.login()
+            this.removeNotify()
         })
 
         val constraint = GridBagConstraints()

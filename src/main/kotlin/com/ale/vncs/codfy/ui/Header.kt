@@ -22,13 +22,10 @@ import javax.swing.ImageIcon
 import javax.swing.JLabel
 import javax.swing.SwingConstants
 
-class Header : GridBagPanel(), SpotifyStatusObserver {
+class Header(private val spotifyStatus: SpotifyStatus) : GridBagPanel() {
     private val spotifyService = SpotifyService.instance()
-    private var spotifyStatus = SpotifyStatus.NOT_LOGGED
 
     init {
-        spotifyStatus = NotifierService.instance().getSpotifyStatus()
-        NotifierService.instance().addSpotifyStatusObserver(this)
         createUI()
     }
 
@@ -89,10 +86,5 @@ class Header : GridBagPanel(), SpotifyStatusObserver {
         menu.add(logoutItem)
 
         return menu
-    }
-
-    override fun update(status: SpotifyStatus) {
-        spotifyStatus = status
-        repaint()
     }
 }

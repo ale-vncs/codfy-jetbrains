@@ -9,6 +9,7 @@ import com.ale.vncs.codfy.utils.SpotifyTokens
 import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
+import com.intellij.openapi.diagnostic.thisLogger
 import se.michaelthelin.spotify.SpotifyApi
 import se.michaelthelin.spotify.SpotifyHttpManager
 import se.michaelthelin.spotify.enums.AuthorizationScope
@@ -63,30 +64,29 @@ class SpotifyService {
         getUserData()
     }
 
-    private fun getUserData(): CompletableFuture<Unit> {
-        return spotifyApi.currentUsersProfile.build()
-            .executeAsync()
-            .thenApply(fun(user) {
-                this.user = user
-                changeStatus(SpotifyStatus.LOGGED)
-            })
-            .exceptionally(fun(ex) {
-                if (ex is UnauthorizedException) {
-                    Notification.notifyError(
-                        "Login Error",
-                        "Your access has been expired. Login again!"
-                    )
-                } else {
-                    Notification.notifyError(
-                        "Login Error",
-                        "Unfortunately, an error occurred when access your account. Try login again"
+    private fun getUserData() {
+        try {
+            val user = spotifyApi.currentUsersProfile.build().execute()
 
-                    )
-                }
-                println(ex)
-                changeStatus(SpotifyStatus.NOT_LOGGED)
-                SpotifyTokens.removeTokens()
-            })
+            this.user = user
+            changeStatus(SpotifyStatus.LOGGED)
+        } catch (ex: Exception) {
+            thisLogger().error(ex)
+            if (ex is UnauthorizedException) {
+                Notification.notifyError(
+                    "Login Error",
+                    "Your access has been expired. Login again!"
+                )
+            } else {
+                Notification.notifyError(
+                    "Login Error",
+                    "Unfortunately, an error occurred when access your account. Try login again"
+
+                )
+            }
+            changeStatus(SpotifyStatus.NOT_LOGGED)
+            SpotifyTokens.removeTokens()
+        }
     }
 
     fun changeStatus(status: SpotifyStatus) {
@@ -132,9 +132,8 @@ class SpotifyService {
                     spotifyApi.refreshToken = credentials.refreshToken
                     SpotifyRefreshTokenService.start(credentials.expiresIn)
                     saveTokens()
-                    getUserData().thenApply(fun(_) {
-                        Notification.notifyInfo("Login Successfully", "Thanks for using us!!")
-                    })
+                    getUserData()
+                    Notification.notifyInfo("Login Successfully", "Thanks for using us!!")
                 })
         } catch (e: CompletionException) {
             println("Error: " + e.cause!!.message)
@@ -151,14 +150,10 @@ class SpotifyService {
             .scope(
                 AuthorizationScope.USER_LIBRARY_READ,
                 AuthorizationScope.USER_LIBRARY_MODIFY,
-                AuthorizationScope.APP_REMOTE_CONTROL,
                 AuthorizationScope.USER_READ_CURRENTLY_PLAYING,
                 AuthorizationScope.USER_MODIFY_PLAYBACK_STATE,
-                AuthorizationScope.USER_TOP_READ,
                 AuthorizationScope.USER_READ_PLAYBACK_STATE,
-                AuthorizationScope.USER_READ_RECENTLY_PLAYED,
-                AuthorizationScope.USER_READ_PRIVATE,
-                AuthorizationScope.USER_READ_EMAIL
+                AuthorizationScope.USER_READ_PRIVATE
             )
             .build()
     }

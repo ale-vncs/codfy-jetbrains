@@ -55,7 +55,7 @@ class StatusBar : StatusBarWidgetFactory {
                 this.statusBar = statusBar
             }
 
-            override fun getPresentation(): StatusBarWidget.WidgetPresentation? {
+            override fun getPresentation(): StatusBarWidget.WidgetPresentation {
                 return object : StatusBarWidget.MultipleTextValuesPresentation {
                     override fun getTooltipText(): String {
                         return Constants.APP_NAME
@@ -83,11 +83,12 @@ class StatusBar : StatusBarWidgetFactory {
                     }
 
                     override fun getIcon(): Icon {
+                        val statusBarMaxHeight = 13f
                         var icon = IconLoader.getIcon(
                                 "/icons/spotify-icon.svg",
                                 this::class.java
                         )
-                        icon = IconUtil.scale(icon, null, 13f/icon.iconHeight)
+                        icon = IconUtil.scale(icon, null, statusBarMaxHeight/icon.iconHeight)
                         if (playerData == null) icon = IconUtil.colorize(icon, JBColor.GRAY)
                         return icon
                     }

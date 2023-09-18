@@ -8,6 +8,7 @@ import com.ale.vncs.codfy.notifier.SpotifyStatusObserver
 import com.ale.vncs.codfy.ui.auth.AuthPanel
 import com.ale.vncs.codfy.ui.player.PlayerPanel
 import com.ale.vncs.codfy.ui.playlist.Playlist
+import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.wm.ToolWindow
 import java.awt.BorderLayout
 import javax.swing.BorderFactory
@@ -27,9 +28,7 @@ class MainContentPanel(val toolWindow: ToolWindow) : DefaultPanel(BorderLayout(0
     }
 
     private fun createUI() {
-        removeAll()
-        repaint()
-        add(Header(), BorderLayout.NORTH)
+        add(Header(spotifyStatus), BorderLayout.NORTH)
         if (spotifyStatus == SpotifyStatus.NOT_LOGGED) {
             add(AuthPanel())
         }
@@ -40,7 +39,6 @@ class MainContentPanel(val toolWindow: ToolWindow) : DefaultPanel(BorderLayout(0
             add(Playlist())
             add(PlayerPanel(), BorderLayout.SOUTH)
         }
-        println("Main content updated")
     }
 
     private fun initializingPanel(): JPanel {
@@ -53,7 +51,9 @@ class MainContentPanel(val toolWindow: ToolWindow) : DefaultPanel(BorderLayout(0
 
     override fun update(status: SpotifyStatus) {
         spotifyStatus = status
-        println("status: $status")
+        thisLogger().info("status: $status")
+        removeAll()
+        repaint()
         createUI()
     }
 }
