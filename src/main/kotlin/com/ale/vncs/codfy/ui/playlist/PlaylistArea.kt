@@ -4,7 +4,9 @@ import com.ale.vncs.codfy.component.DefaultPanel
 import com.ale.vncs.codfy.dto.PlaylistDTO
 import com.ale.vncs.codfy.notifier.NotifierService
 import com.ale.vncs.codfy.services.SpotifyService
+import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.ui.JBColor
+import com.intellij.ui.awt.RelativePoint
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.IconUtil
 import com.intellij.util.ui.ImageUtil
@@ -12,10 +14,16 @@ import org.imgscalr.Scalr
 import org.kordamp.ikonli.materialdesign2.MaterialDesignH
 import org.kordamp.ikonli.swing.FontIcon
 import se.michaelthelin.spotify.model_objects.specification.PlaylistSimplified
+import java.awt.Cursor
 import java.awt.Dimension
+import java.awt.Point
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
 import java.net.URI
 import javax.imageio.ImageIO
 import javax.swing.*
+
+private const val i = 8
 
 class PlaylistArea : JBScrollPane() {
     private val notifierService = NotifierService.instance()
@@ -25,6 +33,7 @@ class PlaylistArea : JBScrollPane() {
     init {
         border = BorderFactory.createEmptyBorder()
         panel.layout = BoxLayout(panel, BoxLayout.X_AXIS)
+        panel.maximumSize = Dimension(Integer.MAX_VALUE, 100)
         setViewportView(panel)
         setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS)
         songLikedButton()
@@ -40,7 +49,7 @@ class PlaylistArea : JBScrollPane() {
     private fun createBoxPlaylist(pl: PlaylistSimplified) {
         var image = ImageIO.read(URI.create(pl.images[0].url).toURL())
         image = Scalr.resize(ImageUtil.toBufferedImage(image!!), 90)
-        image = ImageUtil.createRoundedImage(image, 8.0)
+        image = ImageUtil.createRoundedImage(image, 0.0)
         val icon = ImageIcon(image)
         val button = getButton(icon, pl.name)
 
@@ -66,6 +75,7 @@ class PlaylistArea : JBScrollPane() {
         button.addActionListener(fun(_) {
             getTrackLiked()
         })
+        button.isRequestFocusEnabled = true
         panel.add(button)
     }
 
@@ -103,11 +113,12 @@ class PlaylistArea : JBScrollPane() {
 
 
     private fun getButton(icon: Icon, toolTip: String): JButton {
+        val iconBorder = 8
         val button = JButton()
         button.icon = icon
-        button.rolloverIcon = IconUtil.brighter(icon, 2)
-        button.preferredSize = Dimension(icon.iconWidth + 8, icon.iconHeight + 8)
+        button.preferredSize = Dimension(icon.iconWidth + iconBorder, icon.iconHeight + iconBorder)
         button.toolTipText = toolTip
+        button.cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
 
         return button
     }

@@ -8,12 +8,14 @@ import com.intellij.ui.components.ActionLink
 import com.intellij.util.ui.JBUI
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
 import javax.swing.JLabel
 
 class AuthPanel : DefaultPanel(GridBagLayout()) {
     private val appName = Constants.APP_NAME
     private val spotifyService = SpotifyService.instance()
-
+    private val loginSpotifyButton = ActionLink("LogIn Spotify")
 
     init {
         textInfo()
@@ -27,11 +29,9 @@ class AuthPanel : DefaultPanel(GridBagLayout()) {
     }
 
     private fun loginButton() {
-        val loginSpotifyButton = ActionLink("LogIn Spotify")
-        loginSpotifyButton.requestFocus()
+        loginSpotifyButton.isFocusable = false
         loginSpotifyButton.addActionListener(fun(_) {
             spotifyService.login()
-            this.removeNotify()
         })
 
         val constraint = GridBagConstraints()

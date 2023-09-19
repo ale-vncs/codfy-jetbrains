@@ -66,9 +66,7 @@ class SpotifyService {
 
     private fun getUserData() {
         try {
-            val user = spotifyApi.currentUsersProfile.build().execute()
-
-            this.user = user
+            this.user = spotifyApi.currentUsersProfile.build().execute()
             changeStatus(SpotifyStatus.LOGGED)
         } catch (ex: Exception) {
             thisLogger().error(ex)
@@ -145,7 +143,7 @@ class SpotifyService {
     private fun createAuthorizationRequest(): AuthorizationCodeUriRequest {
         return spotifyApi
             .authorizationCodeUri()
-            .show_dialog(false)
+            .show_dialog(true)
             .response_type("code")
             .scope(
                 AuthorizationScope.USER_LIBRARY_READ,
@@ -153,7 +151,8 @@ class SpotifyService {
                 AuthorizationScope.USER_READ_CURRENTLY_PLAYING,
                 AuthorizationScope.USER_MODIFY_PLAYBACK_STATE,
                 AuthorizationScope.USER_READ_PLAYBACK_STATE,
-                AuthorizationScope.USER_READ_PRIVATE
+                AuthorizationScope.USER_READ_PRIVATE,
+                AuthorizationScope.PLAYLIST_READ_PRIVATE
             )
             .build()
     }

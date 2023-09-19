@@ -1,6 +1,5 @@
 package com.ale.vncs.codfy.ui.playlist
 
-import AlphaContainer
 import com.ale.vncs.codfy.component.CustomLabel
 import com.ale.vncs.codfy.component.DefaultPanel
 import com.ale.vncs.codfy.dto.PlaylistDTO
@@ -21,6 +20,7 @@ import com.intellij.util.ui.JBInsets
 import org.imgscalr.Scalr
 import org.kordamp.ikonli.materialdesign2.MaterialDesignP
 import org.kordamp.ikonli.swing.FontIcon
+import java.awt.Cursor
 import java.awt.Dimension
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
@@ -41,12 +41,14 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
         notifierService.addSpotifyPlayerTrackChangeObserver(this)
 
         panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
-        setViewportView(AlphaContainer(panel))
+        setViewportView(panel)
         setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS)
     }
 
     private fun trackCardLine(playlistTrackData: PlaylistTrackData) {
         val card = DefaultPanel(GridBagLayout())
+        card.cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+        card.maximumSize = Dimension(Integer.MAX_VALUE, 60)
 
         val image = Scalr.resize(toBufferedImage(playlistTrackData.track.songImage), 60)
         val constraint = GridBagConstraints()
@@ -72,7 +74,6 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
 
         constraint.gridx = constraint.gridx++
         constraint.fill = GridBagConstraints.NONE
-        constraint.weightx = 0.0
 
         card.add(getLabel(convertTime(playlistTrackData.track.durationMs)))
 
@@ -94,8 +95,7 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
     }
 
     private fun songDescriptionPanel(track: TrackDTO): JPanel {
-        val panel = JPanel()
-        panel.isOpaque = false
+        val panel = DefaultPanel()
         panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
 
         panel.add(getLabel(track.songName, 18f))
@@ -126,7 +126,7 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
             val panel = e.source as JPanel
             panel.isOpaque = true
             panel.background = JBColor.WHITE.brighter()
-            panel.repaint()
+            panel.parent.repaint()
         }
 
         override fun mouseClicked(e: MouseEvent?) {
@@ -140,8 +140,8 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
         override fun mouseExited(e: MouseEvent) {
             val panel = e.source as JPanel
             panel.isOpaque = false
-            panel.background = null
-            panel.repaint()
+            panel.background = JBColor.background()
+            panel.parent.repaint()
         }
     }
 
