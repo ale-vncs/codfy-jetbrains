@@ -14,6 +14,7 @@ import se.michaelthelin.spotify.SpotifyApi
 import se.michaelthelin.spotify.SpotifyHttpManager
 import se.michaelthelin.spotify.enums.AuthorizationScope
 import se.michaelthelin.spotify.exceptions.detailed.UnauthorizedException
+import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials
 import se.michaelthelin.spotify.model_objects.specification.User
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest
@@ -60,7 +61,7 @@ class SpotifyService {
         }
         spotifyApi.accessToken = accessKey
         spotifyApi.refreshToken = refreshToken
-        SpotifyRefreshTokenService.start()
+        refreshToken()
         getUserData()
     }
 
@@ -69,13 +70,13 @@ class SpotifyService {
             this.user = spotifyApi.currentUsersProfile.build().execute()
             changeStatus(SpotifyStatus.LOGGED)
         } catch (ex: Exception) {
-            thisLogger().error(ex)
             if (ex is UnauthorizedException) {
                 Notification.notifyError(
                     "Login Error",
                     "Your access has been expired. Login again!"
                 )
             } else {
+                thisLogger().error(ex)
                 Notification.notifyError(
                     "Login Error",
                     "Unfortunately, an error occurred when access your account. Try login again"
@@ -98,6 +99,21 @@ class SpotifyService {
             SpotifyPlayTrackUpdate.start()
         }
         NotifierService.instance().setSpotifyStatus(status)
+    }
+
+    fun refreshToken(): AuthorizationCodeCredentials? {
+        try {
+            println("Executing Refresh token")
+            val credential = spotifyApi.authorizationCodeRefresh().build().execute()
+            println("Token refreshed")
+            spotifyApi.accessToken = credential.accessToken
+            SpotifyTokens.setTokens(spotifyApi.accessToken, spotifyApi.refreshToken)
+            return credential
+        } catch (ex: Exception) {
+            thisLogger().error("An error occurred when refresh token")
+            thisLogger().error(ex)
+        }
+        return null
     }
 
     fun login() {

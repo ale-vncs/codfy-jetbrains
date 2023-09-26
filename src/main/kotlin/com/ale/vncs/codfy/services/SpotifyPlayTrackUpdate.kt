@@ -16,17 +16,14 @@ import java.util.*
 @Service
 class SpotifyPlayTrackUpdate {
     private var timer: Timer? = null
-    private var isUpdating = false
 
     fun start() {
-        if (isUpdating) return
+        if (timer != null) return
         timer = Timer()
         timer!!.schedule(UpdateTask(), 0, 800)
-        isUpdating = true
     }
 
     fun stop() {
-        isUpdating = false
         timer?.cancel()
     }
 
