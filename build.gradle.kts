@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.ale.vncs"
-version = "0.1.4"
+version = "0.2.0"
 
 repositories {
   mavenCentral()
@@ -18,7 +18,7 @@ dependencies {
   implementation("org.imgscalr:imgscalr-lib:4.2")
   implementation("org.kordamp.ikonli:ikonli-swing:12.3.1")
   implementation("org.kordamp.ikonli:ikonli-materialdesign2-pack:12.3.1")
-  implementation("se.michaelthelin.spotify:spotify-web-api-java:8.0.0") {
+  implementation("se.michaelthelin.spotify:spotify-web-api-java:8.1.0") {
     exclude(group = "org.slf4j", module = "slf4j-api")
   }
 

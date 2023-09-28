@@ -158,4 +158,10 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
         this.trackData = track
         updateUi()
     }
+
+    override fun removeNotify() {
+        notifierService.removeSpotifyPlaylistObserver(this)
+        notifierService.removeSpotifyPlayerTrackChangeObserver(this)
+        super.removeNotify()
+    }
 }

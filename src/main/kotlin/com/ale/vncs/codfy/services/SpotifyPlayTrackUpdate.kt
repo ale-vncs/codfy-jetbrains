@@ -16,15 +16,19 @@ import java.util.*
 @Service
 class SpotifyPlayTrackUpdate {
     private var timer: Timer? = null
+    private var tickWaitToUpdate = 0
 
     fun start() {
         if (timer != null) return
         timer = Timer()
         timer!!.schedule(UpdateTask(), 0, 800)
+        println("SpotifyPlayTrackUpdate started")
     }
 
     fun stop() {
         timer?.cancel()
+        timer = null
+        println("SpotifyPlayTrackUpdate stopped")
     }
 
     private class UpdateTask : TimerTask() {
@@ -36,21 +40,24 @@ class SpotifyPlayTrackUpdate {
         override fun run() {
             try {
                 val data = spotifyApi.informationAboutUsersCurrentPlayback.build().execute()
+                val tickWaitToUpdate = getTickWaitToUpdate()
+                if (tickWaitToUpdate > 0) {
+                    removeTick()
+                    return
+                }
                 if (data != null && data.item != null) {
                     notifierService.setPlayerTracker(PlayerDTO(data))
                 } else {
                     spotifyDeviceService.reloadDevices().join()
                     val devices = spotifyDeviceService.getDevices()
                     if (devices.isEmpty()) {
-                        cancel()
+                        stop()
                     }
                 }
             } catch (ex: Exception) {
                 if (ex is BadGatewayException) {
                     return
                 }
-
-                thisLogger().error(ex)
 
                 if (ex is UnknownHostException) {
                     spotifyService.changeStatus(SpotifyStatus.LOST_CONNECTION)
@@ -60,6 +67,7 @@ class SpotifyPlayTrackUpdate {
                     )
                     return
                 }
+                thisLogger().error(ex)
 
                 cancel()
                 spotifyService.logout()
@@ -87,6 +95,23 @@ class SpotifyPlayTrackUpdate {
 
         fun stop() {
             instance.stop()
+        }
+
+        fun setTickWaitToUpdate(tick: Int) {
+            if (instance.tickWaitToUpdate >= tick) return
+            instance.tickWaitToUpdate = tick
+        }
+
+        fun getTickWaitToUpdate(): Int {
+            return instance.tickWaitToUpdate
+        }
+
+        fun removeTick() {
+            if (instance.tickWaitToUpdate <= 0) {
+                instance.tickWaitToUpdate = 0
+                return
+            }
+            instance.tickWaitToUpdate--
         }
     }
 }

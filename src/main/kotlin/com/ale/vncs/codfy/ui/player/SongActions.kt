@@ -197,4 +197,11 @@ class SongActions : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyPlayerTra
         stepBackward.isEnabled = isEnabled
         stepForward.isEnabled = isEnabled
     }
+
+    override fun removeNotify() {
+        NotifierService.instance().removeSpotifyTrackerObserver(this)
+        NotifierService.instance().removeSpotifyPlayerTrackChangeObserver(this)
+        NotifierService.instance().removeSpotifyDeviceChangeObserver(this)
+        super.removeNotify()
+    }
 }

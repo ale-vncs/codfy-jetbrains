@@ -56,8 +56,13 @@ class VolumeSongAction : IconButton(MaterialDesignV.VOLUME_HIGH, 25), SpotifyDev
         if (device == null) {
             this.isEnabled = false
         } else {
-            this.isEnabled = true
+            this.isEnabled = device.isSupportsVolume
             slider.value = device.volumePercent
         }
+    }
+
+    override fun removeNotify() {
+        NotifierService.instance().removeSpotifyDeviceChangeObserver(this)
+        super.removeNotify()
     }
 }

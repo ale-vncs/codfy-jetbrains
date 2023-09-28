@@ -9,6 +9,7 @@ class DeviceDTO {
     val name: String
     val type: String
     val volumePercent: Int
+    val isSupportsVolume: Boolean
 
     constructor(device: Device) {
         this.id = device.id
@@ -17,5 +18,23 @@ class DeviceDTO {
         this.name = device.name
         this.type = device.type
         this.volumePercent = device.volume_percent
+        this.isSupportsVolume = device.supports_volume
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is DeviceDTO) return false
+
+        val device = other as DeviceDTO?
+        val equalList: ArrayList<Boolean> = ArrayList()
+
+        equalList.add(device?.id == this.id)
+        equalList.add(device?.isActive == this.isActive)
+        equalList.add(device?.isRestricted == this.isRestricted)
+        equalList.add(device?.name == this.name)
+        equalList.add(device?.type == this.type)
+        equalList.add(device?.volumePercent == this.volumePercent)
+        equalList.add(device?.isSupportsVolume == this.isSupportsVolume)
+
+        return equalList.stream().allMatch(fun(f): Boolean { return f })
     }
 }

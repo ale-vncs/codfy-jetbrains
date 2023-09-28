@@ -38,6 +38,7 @@ class SpotifyService {
     }
 
     fun start() {
+        if (status != SpotifyStatus.INITIALIZING) return
         changeStatus(SpotifyStatus.INITIALIZING)
         checkAccess()
     }

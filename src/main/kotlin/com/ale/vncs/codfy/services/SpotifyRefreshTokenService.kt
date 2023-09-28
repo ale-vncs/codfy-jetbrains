@@ -16,6 +16,7 @@ object SpotifyRefreshTokenService {
 
     fun stop() {
         timer?.cancel()
+        timer = null
     }
 
     private class RefreshTokenTask : TimerTask() {

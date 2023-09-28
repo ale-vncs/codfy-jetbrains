@@ -73,4 +73,9 @@ class SongDetail : GridBagPanel(), SpotifyPlayerTrackObserver {
         artistName.text = playerData.songArtistName
         repaint()
     }
+
+    override fun removeNotify() {
+        notifierService.removeSpotifyTrackerObserver(this)
+        super.removeNotify()
+    }
 }

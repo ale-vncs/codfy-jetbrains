@@ -23,7 +23,6 @@ class SongPeriodBar : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyDeviceC
     private val labelSongCurrentTime: JLabel
     private val labelSongDurationTime: JLabel
     private val songBar = songDurationBar()
-    private var tickWaitToUpdate = 0
 
     init {
         NotifierService.instance().addSpotifyTrackerObserver(this)
@@ -50,7 +49,6 @@ class SongPeriodBar : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyDeviceC
                 val value = (e.source as JSlider).value
                 labelSongCurrentTime.text = convertTime(value)
                 SpotifySendAction.seekToPosition(value)
-                tickWaitToUpdate = 1
             }
         })
 
@@ -97,10 +95,6 @@ class SongPeriodBar : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyDeviceC
     }
 
     override fun update(playerData: PlayerDTO) {
-        if (tickWaitToUpdate > 0) {
-            tickWaitToUpdate--
-            return
-        }
         songBar.value = playerData.progressMs
         labelSongCurrentTime.text = convertTime(playerData.progressMs)
         songBar.maximum = playerData.durationMs
@@ -110,5 +104,11 @@ class SongPeriodBar : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyDeviceC
 
     override fun update(device: DeviceDTO?) {
         songBar.isEnabled = device != null
+    }
+
+    override fun removeNotify() {
+        NotifierService.instance().removeSpotifyTrackerObserver(this)
+        NotifierService.instance().removeSpotifyDeviceChangeObserver(this)
+        super.removeNotify()
     }
 }

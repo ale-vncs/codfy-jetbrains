@@ -113,7 +113,7 @@ class PlaylistArea : JBScrollPane() {
 
 
     private fun getButton(icon: Icon, toolTip: String): JButton {
-        val iconBorder = 8
+        val iconBorder = 4
         val button = JButton()
         button.icon = icon
         button.preferredSize = Dimension(icon.iconWidth + iconBorder, icon.iconHeight + iconBorder)

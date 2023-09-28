@@ -115,6 +115,13 @@ class DeviceSelection : GridBagPanel(), SpotifyDeviceChangeObserver {
             comboBoxModel.removeAllElements()
             comboBoxModel.selectedItem = null
             repaint()
+        } else {
+            getDevices()
         }
+    }
+
+    override fun removeNotify() {
+        NotifierService.instance().removeSpotifyDeviceChangeObserver(this)
+        super.removeNotify()
     }
 }

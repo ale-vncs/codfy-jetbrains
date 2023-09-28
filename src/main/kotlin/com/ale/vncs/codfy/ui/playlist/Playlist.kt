@@ -38,4 +38,9 @@ class Playlist : DefaultPanel(BorderLayout()), SpotifyPlaylistObserver {
     }
 
     override fun updateUI() {}
+
+    override fun removeNotify() {
+        NotifierService.instance().removeSpotifyPlaylistObserver(this)
+        super.removeNotify()
+    }
 }

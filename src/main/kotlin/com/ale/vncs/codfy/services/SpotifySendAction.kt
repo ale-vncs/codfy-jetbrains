@@ -10,6 +10,7 @@ object SpotifySendAction {
 
     fun playPause() {
         if (playerData == null) return
+        tickToUpdate()
         val isPlaying = playerData!!.isPlaying
         if (!isPlaying) {
             spotifyApi.startResumeUsersPlayback().build().executeAsync()
@@ -20,11 +21,13 @@ object SpotifySendAction {
 
     fun nextSong() {
         if (playerData == null) return
+        tickToUpdate()
         spotifyApi.skipUsersPlaybackToNextTrack().build().executeAsync()
     }
 
     fun prevSong() {
         if (playerData == null) return
+        tickToUpdate()
         if ((playerData!!.progressMs / 1000) < 3) {
             spotifyApi.skipUsersPlaybackToPreviousTrack().build().executeAsync()
         } else {
@@ -44,15 +47,22 @@ object SpotifySendAction {
 
     fun seekToPosition(value: Int) {
         if (playerData == null) return
+        tickToUpdate()
+        playerData?.progressMs = value
+        NotifierService.instance().setPlayerTracker(playerData!!)
         spotifyApi.seekToPositionInCurrentlyPlayingTrack(value).build().executeAsync()
     }
 
     fun toggleLikeTrack(isLiked: Boolean): CompletableFuture<String>? {
         if (playerData == null) return CompletableFuture()
-        if(isLiked) {
-            return spotifyApi.removeUsersSavedTracks(playerData?.songId).build().executeAsync()
+        return if (isLiked) {
+            spotifyApi.removeUsersSavedTracks(playerData?.songId).build().executeAsync()
         } else {
-            return spotifyApi.saveTracksForUser(playerData?.songId).build().executeAsync()
+            spotifyApi.saveTracksForUser(playerData?.songId).build().executeAsync()
         }
+    }
+
+    private fun tickToUpdate(value: Int = 1) {
+        SpotifyPlayTrackUpdate.setTickWaitToUpdate(value)
     }
 }

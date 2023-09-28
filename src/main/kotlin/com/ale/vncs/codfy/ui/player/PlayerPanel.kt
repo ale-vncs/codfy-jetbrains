@@ -3,7 +3,7 @@ package com.ale.vncs.codfy.ui.player
 import com.ale.vncs.codfy.component.GridBagPanel
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.JBUI
-import java.awt.*
+import java.awt.GridBagConstraints
 import javax.swing.BorderFactory
 
 class PlayerPanel : GridBagPanel() {

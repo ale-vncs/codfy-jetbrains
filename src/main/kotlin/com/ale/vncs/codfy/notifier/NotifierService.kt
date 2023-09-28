@@ -20,28 +20,43 @@ class NotifierService {
     private val spotifyDeviceChangeObserverList: MutableList<SpotifyDeviceChangeObserver> = mutableListOf();
 
     fun addSpotifyTrackerObserver(observer: SpotifyPlayerTrackObserver) {
-        removeIfExist(this.spotifyPlayerTrackObserverList, observer)
         this.spotifyPlayerTrackObserverList.add(observer)
     }
 
+    fun removeSpotifyTrackerObserver(observer: SpotifyPlayerTrackObserver) {
+        this.spotifyPlayerTrackObserverList.remove(observer)
+    }
+
     fun addSpotifyStatusObserver(observer: SpotifyStatusObserver) {
-        removeIfExist(this.spotifyStatusObserverList, observer)
         this.spotifyStatusObserverList.add(observer)
     }
 
+    fun removeSpotifyStatusObserver(observer: SpotifyStatusObserver) {
+        this.spotifyStatusObserverList.remove(observer)
+    }
+
     fun addSpotifyPlaylistObserver(observer: SpotifyPlaylistObserver) {
-        removeIfExist(this.spotifyPlaylistObserverList, observer)
         this.spotifyPlaylistObserverList.add(observer)
     }
 
+    fun removeSpotifyPlaylistObserver(observer: SpotifyPlaylistObserver) {
+        this.spotifyPlaylistObserverList.remove(observer)
+    }
+
     fun addSpotifyPlayerTrackChangeObserver(observer: SpotifyPlayerTrackChangeObserver) {
-        removeIfExist(this.spotifyPlayerTrackChangeObserverList, observer)
         this.spotifyPlayerTrackChangeObserverList.add(observer)
     }
 
+    fun removeSpotifyPlayerTrackChangeObserver(observer: SpotifyPlayerTrackChangeObserver) {
+        this.spotifyPlayerTrackChangeObserverList.remove(observer)
+    }
+
     fun addSpotifyDeviceChangeObserver(observer: SpotifyDeviceChangeObserver) {
-        removeIfExist(this.spotifyDeviceChangeObserverList, observer)
         this.spotifyDeviceChangeObserverList.add(observer)
+    }
+
+    fun removeSpotifyDeviceChangeObserver(observer: SpotifyDeviceChangeObserver) {
+        this.spotifyDeviceChangeObserverList.remove(observer)
     }
 
     fun getSpotifyStatus(): SpotifyStatus {
@@ -65,6 +80,7 @@ class NotifierService {
     }
 
     fun setPlayerTracker(playerData: PlayerDTO) {
+        setDevice(playerData.device)
         if (spotifyPlayerTracker?.songId != playerData.songId) {
             for (observer in cloneList(this.spotifyPlayerTrackChangeObserverList)) {
                 observer.update(playerData)
@@ -83,6 +99,8 @@ class NotifierService {
     }
 
     fun setDevice(device: DeviceDTO?) {
+        if (spotifyDevice?.equals(device) == true) return
+        println("device change")
         this.spotifyDevice = device
         for(observer in cloneList(this.spotifyDeviceChangeObserverList)) {
             observer.update(device)
@@ -93,11 +111,6 @@ class NotifierService {
         val cloneList: MutableList<T> = mutableListOf()
         cloneList.addAll(list)
         return cloneList
-    }
-
-    private fun <T> removeIfExist(list: MutableList<T>, clazz: T) {
-        val className = (clazz as Any).javaClass.name
-        list.removeIf(fun(it): Boolean { return (it as Any).javaClass.name == className })
     }
 
     companion object {
