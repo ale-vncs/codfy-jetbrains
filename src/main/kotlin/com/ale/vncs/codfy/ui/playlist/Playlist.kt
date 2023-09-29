@@ -17,7 +17,6 @@ class Playlist : DefaultPanel(BorderLayout()), SpotifyPlaylistObserver {
     private val centerPanel = DefaultPanel(BorderLayout(0  ,4))
 
     init {
-        NotifierService.instance().addSpotifyPlaylistObserver(this)
         add(PlaylistArea(), BorderLayout.NORTH)
         playlistName()
         centerPanel.add(PlaylistSong())
@@ -38,6 +37,11 @@ class Playlist : DefaultPanel(BorderLayout()), SpotifyPlaylistObserver {
     }
 
     override fun updateUI() {}
+
+    override fun addNotify() {
+        NotifierService.instance().addSpotifyPlaylistObserver(this)
+        super.addNotify()
+    }
 
     override fun removeNotify() {
         NotifierService.instance().removeSpotifyPlaylistObserver(this)

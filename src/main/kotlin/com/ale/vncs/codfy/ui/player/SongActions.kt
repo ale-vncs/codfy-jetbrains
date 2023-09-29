@@ -1,18 +1,18 @@
 package com.ale.vncs.codfy.ui.player
 
 import com.ale.vncs.codfy.component.GridBagPanel
-import com.ale.vncs.codfy.dto.DeviceDTO
-import com.ale.vncs.codfy.utils.Constants
-import com.ale.vncs.codfy.enum.SpotifyRepeatMode
 import com.ale.vncs.codfy.component.input.icon.button.IconButton
-import com.ale.vncs.codfy.notifier.NotifierService
-import com.ale.vncs.codfy.notifier.SpotifyPlayerTrackObserver
+import com.ale.vncs.codfy.dto.DeviceDTO
 import com.ale.vncs.codfy.dto.PlayerDTO
 import com.ale.vncs.codfy.dto.TrackDTO
+import com.ale.vncs.codfy.enum.SpotifyRepeatMode
+import com.ale.vncs.codfy.notifier.NotifierService
 import com.ale.vncs.codfy.notifier.SpotifyDeviceChangeObserver
 import com.ale.vncs.codfy.notifier.SpotifyPlayerTrackChangeObserver
+import com.ale.vncs.codfy.notifier.SpotifyPlayerTrackObserver
 import com.ale.vncs.codfy.services.SpotifySendAction
 import com.ale.vncs.codfy.services.SpotifyService
+import com.ale.vncs.codfy.utils.Constants
 import org.kordamp.ikonli.Ikon
 import org.kordamp.ikonli.materialdesign2.MaterialDesignH
 import org.kordamp.ikonli.materialdesign2.MaterialDesignP
@@ -20,12 +20,15 @@ import org.kordamp.ikonli.materialdesign2.MaterialDesignR
 import org.kordamp.ikonli.materialdesign2.MaterialDesignS
 import org.kordamp.ikonli.swing.FontIcon
 import se.michaelthelin.spotify.enums.Action
-import java.awt.*
+import java.awt.Color
+import java.awt.FlowLayout
+import java.awt.GridBagConstraints
 import javax.swing.JButton
 import javax.swing.JPanel
 
 
-class SongActions : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyPlayerTrackChangeObserver, SpotifyDeviceChangeObserver {
+class SongActions : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyPlayerTrackChangeObserver,
+    SpotifyDeviceChangeObserver {
     private val flowLayout = FlowLayout()
     private val centerPanel = JPanel()
     private var playerData: PlayerDTO? = null
@@ -41,9 +44,6 @@ class SongActions : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyPlayerTra
     private val stepBackward = getButton(MaterialDesignS.STEP_BACKWARD)
 
     init {
-        NotifierService.instance().addSpotifyTrackerObserver(this)
-        NotifierService.instance().addSpotifyPlayerTrackChangeObserver(this)
-        NotifierService.instance().addSpotifyDeviceChangeObserver(this)
         flowLayout.hgap = 15
         flowLayout.alignment = FlowLayout.CENTER
         centerPanel.isOpaque = false
@@ -71,9 +71,9 @@ class SongActions : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyPlayerTra
     }
 
     private fun playPauseIcon() {
-        playPauseIconButton.addActionListener { _ ->
+        playPauseIconButton.addActionListener(fun(_) {
             SpotifySendAction.playPause()
-        }
+        })
         centerPanel.add(playPauseIconButton)
     }
 
@@ -196,6 +196,13 @@ class SongActions : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyPlayerTra
         repeatIconButton.isEnabled = isEnabled
         stepBackward.isEnabled = isEnabled
         stepForward.isEnabled = isEnabled
+    }
+
+    override fun addNotify() {
+        NotifierService.instance().addSpotifyTrackerObserver(this)
+        NotifierService.instance().addSpotifyPlayerTrackChangeObserver(this)
+        NotifierService.instance().addSpotifyDeviceChangeObserver(this)
+        super.addNotify()
     }
 
     override fun removeNotify() {

@@ -20,7 +20,6 @@ class VolumeSongAction : IconButton(MaterialDesignV.VOLUME_HIGH, 25), SpotifyDev
     private val slider = CustomSlider()
 
     init {
-        NotifierService.instance().addSpotifyDeviceChangeObserver(this)
         volumeSlider()
         addActionListener(fun(_) {
             volumePopupSlider()
@@ -29,7 +28,6 @@ class VolumeSongAction : IconButton(MaterialDesignV.VOLUME_HIGH, 25), SpotifyDev
 
     private fun volumeSlider() {
         slider.maximum = 100
-        slider.value = NotifierService.instance().getDevice()?.volumePercent ?: 0
         slider.setSize(200, 20)
 
         slider.addMouseListener(object : MouseAdapter() {
@@ -59,6 +57,12 @@ class VolumeSongAction : IconButton(MaterialDesignV.VOLUME_HIGH, 25), SpotifyDev
             this.isEnabled = device.isSupportsVolume
             slider.value = device.volumePercent
         }
+    }
+
+    override fun addNotify() {
+        slider.value = NotifierService.instance().getDevice()?.volumePercent ?: 0
+        NotifierService.instance().addSpotifyDeviceChangeObserver(this)
+        super.addNotify()
     }
 
     override fun removeNotify() {

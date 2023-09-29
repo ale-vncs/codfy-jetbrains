@@ -25,8 +25,6 @@ class SongPeriodBar : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyDeviceC
     private val songBar = songDurationBar()
 
     init {
-        NotifierService.instance().addSpotifyTrackerObserver(this)
-        NotifierService.instance().addSpotifyDeviceChangeObserver(this)
         labelSongCurrentTime = getLabelTime()
         labelSongDurationTime = getLabelTime()
         createUI()
@@ -104,6 +102,12 @@ class SongPeriodBar : GridBagPanel(), SpotifyPlayerTrackObserver, SpotifyDeviceC
 
     override fun update(device: DeviceDTO?) {
         songBar.isEnabled = device != null
+    }
+
+    override fun addNotify() {
+        NotifierService.instance().addSpotifyTrackerObserver(this)
+        NotifierService.instance().addSpotifyDeviceChangeObserver(this)
+        super.addNotify()
     }
 
     override fun removeNotify() {

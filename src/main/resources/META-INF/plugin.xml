@@ -36,6 +36,9 @@
     <change-notes>
         <![CDATA[
           <ul>
+            <li><b>0.2.1</b>
+                <p>Fixed Player when codfy panel was hidden</p>
+            </li>
             <li><b>0.2.0</b>
                 <p>Adjustment volume of sound</p>
                 <p>Fixed layout stuck when multiple ide instance open</p>

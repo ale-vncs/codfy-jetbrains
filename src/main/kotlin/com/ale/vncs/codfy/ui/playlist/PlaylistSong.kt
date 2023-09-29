@@ -36,10 +36,6 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
 
     init {
         border = BorderFactory.createEmptyBorder()
-        trackData = notifierService.getPlayerTrack()
-        notifierService.addSpotifyPlaylistObserver(this)
-        notifierService.addSpotifyPlayerTrackChangeObserver(this)
-
         panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
         setViewportView(panel)
         setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS)
@@ -157,6 +153,14 @@ class PlaylistSong : JBScrollPane(), SpotifyPlaylistObserver, SpotifyPlayerTrack
     override fun update(track: TrackDTO) {
         this.trackData = track
         updateUi()
+    }
+
+    override fun addNotify() {
+        trackData = notifierService.getPlayerTrack()
+        updateUi()
+        notifierService.addSpotifyPlaylistObserver(this)
+        notifierService.addSpotifyPlayerTrackChangeObserver(this)
+        super.addNotify()
     }
 
     override fun removeNotify() {

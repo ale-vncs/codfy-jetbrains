@@ -31,7 +31,6 @@ class DeviceSelection : GridBagPanel(), SpotifyDeviceChangeObserver {
     private val spotifyDeviceService = SpotifyDeviceService.instance()
 
     init {
-        NotifierService.instance().addSpotifyDeviceChangeObserver(this)
         getDevices()
         createUI()
     }
@@ -118,6 +117,11 @@ class DeviceSelection : GridBagPanel(), SpotifyDeviceChangeObserver {
         } else {
             getDevices()
         }
+    }
+
+    override fun addNotify() {
+        NotifierService.instance().addSpotifyDeviceChangeObserver(this)
+        super.addNotify()
     }
 
     override fun removeNotify() {

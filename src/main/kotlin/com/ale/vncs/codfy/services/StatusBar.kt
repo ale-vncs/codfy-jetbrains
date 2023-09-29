@@ -2,10 +2,10 @@ package com.ale.vncs.codfy.services
 
 import com.ale.vncs.codfy.dto.PlayerDTO
 import com.ale.vncs.codfy.enum.SpotifyStatus
-import com.ale.vncs.codfy.utils.Constants
 import com.ale.vncs.codfy.notifier.NotifierService
 import com.ale.vncs.codfy.notifier.SpotifyPlayerTrackObserver
 import com.ale.vncs.codfy.notifier.SpotifyStatusObserver
+import com.ale.vncs.codfy.utils.Constants
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.ListPopup
 import com.intellij.openapi.util.IconLoader
@@ -40,18 +40,18 @@ class StatusBar : StatusBarWidgetFactory {
             private var statusBar: StatusBar? = null
             private var playerData: PlayerDTO? = null
 
-            init {
-                NotifierService.instance().addSpotifyTrackerObserver(this)
-                NotifierService.instance().addSpotifyStatusObserver(this)
+            override fun dispose() {
+                NotifierService.instance().removeSpotifyTrackerObserver(this)
+                NotifierService.instance().removeSpotifyStatusObserver(this)
             }
-
-            override fun dispose() {}
 
             override fun ID(): String {
                 return statusBarName
             }
 
             override fun install(statusBar: StatusBar) {
+                NotifierService.instance().addSpotifyTrackerObserver(this)
+                NotifierService.instance().addSpotifyStatusObserver(this)
                 this.statusBar = statusBar
             }
 

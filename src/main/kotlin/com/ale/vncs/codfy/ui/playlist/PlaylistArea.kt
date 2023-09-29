@@ -4,11 +4,8 @@ import com.ale.vncs.codfy.component.DefaultPanel
 import com.ale.vncs.codfy.dto.PlaylistDTO
 import com.ale.vncs.codfy.notifier.NotifierService
 import com.ale.vncs.codfy.services.SpotifyService
-import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.ui.JBColor
-import com.intellij.ui.awt.RelativePoint
 import com.intellij.ui.components.JBScrollPane
-import com.intellij.util.IconUtil
 import com.intellij.util.ui.ImageUtil
 import org.imgscalr.Scalr
 import org.kordamp.ikonli.materialdesign2.MaterialDesignH
@@ -16,14 +13,9 @@ import org.kordamp.ikonli.swing.FontIcon
 import se.michaelthelin.spotify.model_objects.specification.PlaylistSimplified
 import java.awt.Cursor
 import java.awt.Dimension
-import java.awt.Point
-import java.awt.event.MouseAdapter
-import java.awt.event.MouseEvent
 import java.net.URI
 import javax.imageio.ImageIO
 import javax.swing.*
-
-private const val i = 8
 
 class PlaylistArea : JBScrollPane() {
     private val notifierService = NotifierService.instance()
@@ -75,7 +67,6 @@ class PlaylistArea : JBScrollPane() {
         button.addActionListener(fun(_) {
             getTrackLiked()
         })
-        button.isRequestFocusEnabled = true
         panel.add(button)
     }
 
@@ -119,6 +110,7 @@ class PlaylistArea : JBScrollPane() {
         button.preferredSize = Dimension(icon.iconWidth + iconBorder, icon.iconHeight + iconBorder)
         button.toolTipText = toolTip
         button.cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+        button.isFocusable = false
 
         return button
     }

@@ -17,7 +17,7 @@ class ToolWindow : ToolWindowFactory, DumbAware {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         this.toolWindow = toolWindow
-        val toolWindowContent = MainContentPanel(toolWindow)
+        val toolWindowContent = MainContentPanel()
         val content = ContentFactory.getInstance().createContent(AlphaContainer(toolWindowContent), "", false)
         toolWindow.contentManager.addContent(content)
     }

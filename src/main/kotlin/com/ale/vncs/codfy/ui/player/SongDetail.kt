@@ -18,7 +18,6 @@ class SongDetail : GridBagPanel(), SpotifyPlayerTrackObserver {
     private val notifierService = NotifierService.instance()
 
     init {
-        notifierService.addSpotifyTrackerObserver(this)
         playerData = notifierService.getPlayerTrack()
         createUI()
     }
@@ -72,6 +71,11 @@ class SongDetail : GridBagPanel(), SpotifyPlayerTrackObserver {
         songImage.icon = playerData.songImage
         artistName.text = playerData.songArtistName
         repaint()
+    }
+
+    override fun addNotify() {
+        notifierService.addSpotifyTrackerObserver(this)
+        super.addNotify()
     }
 
     override fun removeNotify() {

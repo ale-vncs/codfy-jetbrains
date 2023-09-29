@@ -9,13 +9,12 @@ import com.ale.vncs.codfy.ui.auth.AuthPanel
 import com.ale.vncs.codfy.ui.player.PlayerPanel
 import com.ale.vncs.codfy.ui.playlist.Playlist
 import com.intellij.openapi.diagnostic.thisLogger
-import com.intellij.openapi.wm.ToolWindow
 import java.awt.BorderLayout
 import javax.swing.BorderFactory
 import javax.swing.JPanel
 import javax.swing.SwingConstants
 
-class MainContentPanel(val toolWindow: ToolWindow) : DefaultPanel(BorderLayout(0, 8)), SpotifyStatusObserver {
+class MainContentPanel : DefaultPanel(BorderLayout(0, 8)), SpotifyStatusObserver {
     private val notifierService = NotifierService.instance()
     private var spotifyStatus: SpotifyStatus
 
