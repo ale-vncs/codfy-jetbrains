@@ -28,11 +28,9 @@ class DeviceDTO {
         val equalList: ArrayList<Boolean> = ArrayList()
 
         equalList.add(device?.id == this.id)
-        equalList.add(device?.isActive == this.isActive)
         equalList.add(device?.isRestricted == this.isRestricted)
         equalList.add(device?.name == this.name)
         equalList.add(device?.type == this.type)
-        equalList.add(device?.volumePercent == this.volumePercent)
         equalList.add(device?.isSupportsVolume == this.isSupportsVolume)
 
         return equalList.stream().allMatch(fun(f): Boolean { return f })

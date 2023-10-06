@@ -13,6 +13,7 @@ import java.util.concurrent.CompletableFuture
 @Service
 class SpotifyDeviceService {
     private val spotifyApi = SpotifyService.instance().getApi()
+    private val currentDevice get() = NotifierService.instance().getDevice()
 
     private var devices: Array<Device> = emptyArray()
 
@@ -28,6 +29,8 @@ class SpotifyDeviceService {
     }
 
     fun changeDevice(device: DeviceDTO) {
+        if (device == currentDevice) return
+
         val ids = JsonParser.parseString("[\"${device.id}\"]").asJsonArray
         spotifyApi.transferUsersPlayback(ids)
             .play(true)
@@ -35,7 +38,6 @@ class SpotifyDeviceService {
             .executeAsync()
             .thenApply(fun(_) {
                 SpotifyPlayTrackUpdate.start()
-                NotifierService.instance().setDevice(device)
             })
             .exceptionally(fun(ex) {
                 Notification.notifyError("Change device", "An error occurred when change to ${device.name}")
@@ -57,7 +59,6 @@ class SpotifyDeviceService {
                         "You need a device to play spotify"
                     )
                 }
-                NotifierService.instance().setDevice(getDeviceSelected())
             }).exceptionally(fun(ex) {
                 thisLogger().error("An error occurred a get available devices")
                 thisLogger().error(ex)

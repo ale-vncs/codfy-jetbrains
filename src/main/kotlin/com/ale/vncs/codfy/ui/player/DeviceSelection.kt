@@ -114,7 +114,7 @@ class DeviceSelection : GridBagPanel(), SpotifyDeviceChangeObserver {
             comboBoxModel.removeAllElements()
             comboBoxModel.selectedItem = null
             repaint()
-        } else {
+        } else if (device != comboBoxModel.selectedItem){
             getDevices()
         }
     }

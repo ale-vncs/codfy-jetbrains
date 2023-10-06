@@ -62,7 +62,8 @@ class SpotifyService {
         }
         spotifyApi.accessToken = accessKey
         spotifyApi.refreshToken = refreshToken
-        refreshToken()
+        val credentials = refreshToken()
+        SpotifyRefreshTokenService.start(credentials?.expiresIn ?: 0)
         getUserData()
     }
 

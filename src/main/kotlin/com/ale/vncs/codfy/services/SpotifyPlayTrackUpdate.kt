@@ -10,6 +10,7 @@ import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
 import se.michaelthelin.spotify.exceptions.detailed.BadGatewayException
 import se.michaelthelin.spotify.exceptions.detailed.ForbiddenException
+import se.michaelthelin.spotify.exceptions.detailed.ServiceUnavailableException
 import java.net.UnknownHostException
 import java.util.*
 
@@ -55,7 +56,7 @@ class SpotifyPlayTrackUpdate {
                     }
                 }
             } catch (ex: Exception) {
-                if (ex is BadGatewayException) {
+                if (ex is BadGatewayException || ex is ServiceUnavailableException) {
                     return
                 }
 

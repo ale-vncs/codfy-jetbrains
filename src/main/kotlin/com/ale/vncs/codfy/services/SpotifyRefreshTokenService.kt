@@ -22,6 +22,7 @@ object SpotifyRefreshTokenService {
     private class RefreshTokenTask : TimerTask() {
         private val spotifyService = SpotifyService.instance()
         override fun run() {
+            timer = null
             val credential = spotifyService.refreshToken()
             start(credential?.expiresIn ?: 10)
         }
