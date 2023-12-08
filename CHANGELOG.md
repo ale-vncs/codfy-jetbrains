@@ -4,6 +4,13 @@
 
 ## Unreleased
 
+## 0.2.5 - 2023-12-08
+
+### Changed
+
+- Removed deprecated method
+- Changed build range plugin
+
 ## 0.2.4 - 2023-12-07
 
 ### Changed

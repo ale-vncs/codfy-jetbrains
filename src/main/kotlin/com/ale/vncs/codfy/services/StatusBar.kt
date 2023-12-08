@@ -7,7 +7,7 @@ import com.ale.vncs.codfy.notifier.SpotifyPlayerTrackObserver
 import com.ale.vncs.codfy.notifier.SpotifyStatusObserver
 import com.ale.vncs.codfy.utils.Constants
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.popup.ListPopup
+import com.intellij.openapi.ui.popup.JBPopup
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.wm.StatusBar
 import com.intellij.openapi.wm.StatusBarWidget
@@ -65,7 +65,7 @@ class StatusBar : StatusBarWidgetFactory {
                         return Consumer {}
                     }
 
-                    override fun getPopupStep(): ListPopup? {
+                    override fun getPopup(): JBPopup? {
                         try {
                             val toolWindow = ToolWindowManager.getInstance(project).getToolWindow(ID()) ?: return null
 
@@ -73,8 +73,7 @@ class StatusBar : StatusBarWidgetFactory {
                             else toolWindow.show()
                         } catch (_: Exception) {
                         }
-
-                        return null
+                        return super.getPopup()
                     }
 
                     override fun getSelectedValue(): String {
